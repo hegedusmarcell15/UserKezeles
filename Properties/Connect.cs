@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BasketTeam
+namespace UserKezeles
 {
     public class Connect
     {
@@ -20,7 +20,7 @@ namespace BasketTeam
         public Connect()
         {
             Host = "localhost";
-            Database = "team";
+            Database = "user";
             User = "root";
             Password = "";
 
