@@ -22,62 +22,63 @@ namespace User_kezelés
             InitializeComponent();
         }
 
-        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
 
+        private void button2_Click(object sender, EventArgs e)
+        {
+            string username = textBox3.Text;
+            string password = textBox4.Text;
+
+            if (ValidateUser(username, password))
+            {
+                MessageBox.Show("Bejelentkezés sikeres!");
+            }
+            else
+            {
+                MessageBox.Show("Hibás felhasználónév vagy jelszó!");
+            }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        public bool ValidateUser(string username, string password)
         {
-
+            
             string connString = "Server=localhost;Database=user;Uid=root;Pwd=;";
-
-  
-            string query = "SELECT * FROM `data`";
-
 
             using (MySqlConnection conn = new MySqlConnection(connString))
             {
                 try
                 {
                     conn.Open();
+                    string query = "SELECT COUNT(*) FROM `data` WHERE FirstName AND LastName AND Password";
 
-
-                    MySqlCommand cmd = new MySqlCommand(query, conn);
-
-
-                    MySqlDataReader reader = cmd.ExecuteReader();
-
-
-                    listBox1.Items.Clear();
-
-
-                    while (reader.Read())
+                    using (MySqlConnection conn = new MySqlConnection(connString))
                     {
 
-                        string fname = reader["FirstName"].ToString();
-                        string lname = reader["LastName"].ToString();
-                        int password = int.Parse(reader["Password"].ToString());
-                        string created = reader["CreatedTime"].ToString();
-                        string updated = reader["UpdatedTime"].ToString();
+                        MySqlCommand cmd = new MySqlCommand(query, conn);
 
 
+                        MySqlDataReader reader = cmd.ExecuteReader();
 
-                        string displayText = $"Vezetéknév: {fname}, Keresztnév: {lname}, Jelszava: {password}, Adatbázisba felvéve: {created}, Módosítva: {updated}";
+                        while (reader.Read())
+                        {
 
+                            string fname = reader["FirstName"].ToString();
+                            string lname = reader["LastName"].ToString();
+                            int password = int.Parse(reader["Password"].ToString());
+                            string created = reader["CreatedTime"].ToString();
+                            string updated = reader["UpdatedTime"].ToString();
 
-                        listBox1.Items.Add(displayText);
+                        }
+
+                        reader.Close();
                     }
-
-                    reader.Close();
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Hiba történt: " + ex.Message);
+                    MessageBox.Show($"Hiba történt: {ex.Message}");
+                    return false;
                 }
                 conn.Close();
             }
         }
     }
 }
-   

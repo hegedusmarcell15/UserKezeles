@@ -41,3 +41,4 @@ C:\Users\hegedusm\gitwork\Oraimunka11B\User kezelés\obj\Debug\User kezelés.csp
 C:\Users\hegedusm\gitwork\Oraimunka11B\User kezelés\obj\Debug\User kezelés.csproj.CopyComplete
 C:\Users\hegedusm\gitwork\Oraimunka11B\User kezelés\obj\Debug\User kezelés.exe
 C:\Users\hegedusm\gitwork\Oraimunka11B\User kezelés\obj\Debug\User kezelés.pdb
+C:\Users\hegedusm\gitwork\Oraimunka11B\User kezelés\obj\Debug\Form1.resources
