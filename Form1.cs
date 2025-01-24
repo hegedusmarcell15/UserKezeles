@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using UserKezeles;
 
 
 namespace user_crud
@@ -30,11 +32,11 @@ namespace user_crud
             }
             else
             {
-                
+
             }
         }
 
-        private bool beleptet(string firstName,string lastName, string pass)
+        private bool beleptet(string firstName, string lastName, string pass)
         {
             conn.Connection.Open();
             string sql = $"SELECT `Id` FROM `data` WHERE FirstName = '{firstName}' AND LastName = '{lastName}' AND Password = '{pass}'";
@@ -47,19 +49,16 @@ namespace user_crud
 
         private string regisztral(string firstName, string lastName, string pass)
         {
-            conn.Connection.Open() ;
-            string sql =$"INSERT INTO `data`(`FirstName`, `LastName`, `Password`, `CreatedTime`, `UpdatedTime`) VALUES ('{firstName}','{lastName}','{pass}','{DateTime.Now.ToString("yyyy-MM-dd")}','{DateTime.Now.ToString("yyyy-MM-dd")}')";
-            MySqlCommand cmd = new MySqlCommand( sql, conn.Connection );
+            conn.Connection.Open();
+            string sql = $"INSERT INTO `data`(`FirstName`, `LastName`, `Password`, `CreatedTime`, `UpdatedTime`) VALUES ('{firstName}','{lastName}','{pass}','{DateTime.Now.ToString("yyyy-MM-dd")}','{DateTime.Now.ToString("yyyy-MM-dd")}')";
+            MySqlCommand cmd = new MySqlCommand(sql, conn.Connection);
 
             var result = cmd.ExecuteNonQuery();
 
-                            string fname = reader["FirstName"].ToString();
-                            string lname = reader["LastName"].ToString();
-                            int password = int.Parse(reader["Password"].ToString());
-                            string created = reader["CreatedTime"].ToString();
-                            string updated = reader["UpdatedTime"].ToString();
 
-                        }
+            conn.Connection.Close();
+            return result > 0 ? "Sikeres regisztráció" : "Sikertelen Regisztráció";
+        }
 
         private void button2_Click(object sender, EventArgs e)
         {
@@ -67,6 +66,6 @@ namespace user_crud
             MessageBox.Show("Sikeres regisztráció");
 
         }
-    }   
+    }
 
 }
