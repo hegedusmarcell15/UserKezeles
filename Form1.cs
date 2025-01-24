@@ -32,7 +32,10 @@ namespace user_crud
             }
             else
             {
-
+                MessageBox.Show("Nem regisztrált tag");
+                string[] darabol2 = textBox1.Text.Split(' ');
+                textBox3.Text = darabol2[0];
+                textBox4.Text = darabol2[1];    
             }
         }
 
@@ -65,6 +68,16 @@ namespace user_crud
             regisztral(textBox3.Text, textBox4.Text, textBox5.Text);
             MessageBox.Show("Sikeres regisztráció");
 
+        }
+        private void hideReg()
+        {
+           textBox3.Visible = textBox4.Visible = textBox5.Visible = textBox6.Visible = false;
+            button2.Visible = false;
+        }
+        private void showReg()
+        {
+            textBox3.Visible = textBox4.Visible = textBox5.Visible = textBox6.Visible = true;
+            button2.Visible = true;
         }
     }
 
