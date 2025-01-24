@@ -1,19 +1,17 @@
-﻿using Google.Protobuf;
-using MySql.Data.MySqlClient;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Xml.Linq;
-using UserKezeles;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
+using MySql.Data.MySqlClient;
 
-namespace User_kezelés
+
+namespace user_crud
 {
     public partial class Form1 : Form
     {
@@ -21,64 +19,54 @@ namespace User_kezelés
         {
             InitializeComponent();
         }
+        private Connect conn = new Connect();
 
-
-        private void button2_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
-            string username = textBox3.Text;
-            string password = textBox4.Text;
-
-            if (ValidateUser(username, password))
+            string[] darabol = textBox1.Text.Split(' ');
+            if (beleptet(darabol[1], darabol[0], textBox2.Text) == true)
             {
-                MessageBox.Show("Bejelentkezés sikeres!");
+                MessageBox.Show("Regisztrált tag");
             }
             else
             {
-                MessageBox.Show("Hibás felhasználónév vagy jelszó!");
+                
             }
         }
 
-        public bool ValidateUser(string username, string password)
+        private bool beleptet(string firstName,string lastName, string pass)
         {
-            
-            string connString = "Server=localhost;Database=user;Uid=root;Pwd=;";
+            conn.Connection.Open();
+            string sql = $"SELECT `Id` FROM `data` WHERE FirstName = '{firstName}' AND LastName = '{lastName}' AND Password = '{pass}'";
+            MySqlCommand cmd = new MySqlCommand(sql, conn.Connection);
+            MySqlDataReader dr = cmd.ExecuteReader();
+            bool van = dr.Read();
+            conn.Connection.Close();
+            return van;
+        }
 
-            using (MySqlConnection conn = new MySqlConnection(connString))
-            {
-                try
-                {
-                    conn.Open();
-                    string query = "SELECT COUNT(*) FROM `data` WHERE FirstName AND LastName AND Password";
+        private string regisztral(string firstName, string lastName, string pass)
+        {
+            conn.Connection.Open() ;
+            string sql =$"INSERT INTO `data`(`FirstName`, `LastName`, `Password`, `CreatedTime`, `UpdatedTime`) VALUES ('{firstName}','{lastName}','{pass}','{DateTime.Now.ToString("yyyy-MM-dd")}','{DateTime.Now.ToString("yyyy-MM-dd")}')";
+            MySqlCommand cmd = new MySqlCommand( sql, conn.Connection );
 
-                    using (MySqlConnection conn = new MySqlConnection(connString))
-                    {
-
-                        MySqlCommand cmd = new MySqlCommand(query, conn);
-
-
-                        MySqlDataReader reader = cmd.ExecuteReader();
-
-                        while (reader.Read())
-                        {
+            var result = cmd.ExecuteNonQuery();
 
                             string fname = reader["FirstName"].ToString();
                             string lname = reader["LastName"].ToString();
-                            string password = int.Parse(reader["Password"].ToString());
+                            int password = int.Parse(reader["Password"].ToString());
                             string created = reader["CreatedTime"].ToString();
                             string updated = reader["UpdatedTime"].ToString();
 
                         }
 
-                        reader.Close();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Hiba történt: {ex.Message}");
-                    return false;
-                }
-                conn.Close();
-            }
+        private void button2_Click(object sender, EventArgs e)
+        {
+            regisztral(textBox3.Text, textBox4.Text, textBox5.Text);
+            MessageBox.Show("Sikeres regisztráció");
+
         }
-    }
+    }   
+
 }
