@@ -63,7 +63,7 @@ namespace User_kezelés
 
                             string fname = reader["FirstName"].ToString();
                             string lname = reader["LastName"].ToString();
-                            int password = int.Parse(reader["Password"].ToString());
+                            string password = int.Parse(reader["Password"].ToString());
                             string created = reader["CreatedTime"].ToString();
                             string updated = reader["UpdatedTime"].ToString();
 
