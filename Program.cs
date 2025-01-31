@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace user_crud
+namespace User_kezeles
 {
     internal static class Program
     {
