@@ -49,7 +49,7 @@ namespace User_kezeles
             {
                 frissit(userId, textBox3.Text, textBox4.Text, textBox5.Text);
                 MessageBox.Show("Sikeres frissítés");
-                listBox1.Items.Clear();
+                Adatok.Items.Clear();
                 feltolt();
                 hideReg();
             }
@@ -89,7 +89,7 @@ namespace User_kezeles
 
             conn.Connection.Close();
 
-            listBox1.Items.Clear();
+            Adatok.Items.Clear();
             feltolt();
 
             return result > 0 ? "Sikeres regisztráció" : "Sikertelen Regisztráció.";
@@ -106,7 +106,7 @@ namespace User_kezeles
 
             while (dr.Read())
             {
-                listBox1.Items.Add($"{dr.GetInt32(0)}. {dr.GetString(1)} {dr.GetString(2)}  {dr.GetDateTime(3).ToString("yyyy-MM-dd")} {dr.GetDateTime(4).ToString("yyy-MM-dd")}");
+                Adatok.Items.Add($"{dr.GetInt32(0)}. {dr.GetString(1)} {dr.GetString(2)}  {dr.GetDateTime(3).ToString("yyyy-MM-dd")} {dr.GetDateTime(4).ToString("yyy-MM-dd")}");
             }
 
             conn.Connection.Close();
@@ -116,7 +116,7 @@ namespace User_kezeles
         {
             if (radioButton2.Checked == true)
             {
-                string id = listBox1.SelectedItem.ToString();
+                string id = Adatok.SelectedItem.ToString();
                 string[] idDarabol = id.Split('.');
 
                 conn.Connection.Open();
@@ -129,17 +129,17 @@ namespace User_kezeles
 
                 conn.Connection.Close();
 
-                listBox1.Items.Clear();
+                Adatok.Items.Clear();
                 feltolt();
             }
             else
             {
                 showReg();
-                string[] darabol = listBox1.SelectedItem.ToString().Split(' ');
+                string[] darabol = Adatok.SelectedItem.ToString().Split(' ');
                 textBox4.Text = darabol[1];
                 textBox3.Text = darabol[2];
 
-                string[] darabol2 = listBox1.SelectedItem.ToString().Split('.');
+                string[] darabol2 = Adatok.SelectedItem.ToString().Split('.');
                 userId = int.Parse(darabol2[0].TrimEnd());
             }
 
